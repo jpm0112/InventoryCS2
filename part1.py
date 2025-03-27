@@ -11,10 +11,11 @@ def run_strategy1(data):
 
     current_inventory = 0
     current_cost = 0
+    lam = data[0,1]
 
     for i in range(len(data)-1):
 
-        if current_inventory <= 0: # se usa sin el -1 en el for
+        if current_inventory-lam <= 0: # se usa sin el -1 en el for
         # if current_inventory - data[i+1, 1] <= 0:
 
             lam = data[i,1]
