@@ -8,7 +8,7 @@ def get_q_with_eoq(lam,k,c,h):
     return q
 
 def run_strategy1(data):
-
+    q_list = np.zeros(len(data))
     current_inventory = 0
     current_cost = 0
     lam = data[0,1]
@@ -16,7 +16,6 @@ def run_strategy1(data):
     for i in range(len(data)-1):
 
         if current_inventory-lam <= 0: # se usa sin el -1 en el for
-        # if current_inventory - data[i+1, 1] <= 0:
 
             lam = data[i,1]
             k = data[i,2]
@@ -24,6 +23,7 @@ def run_strategy1(data):
             h = data[i,4]
             q = get_q_with_eoq(lam,k,c,h)
             q = np.ceil(q) # para aproximar hacia arriba
+            q_list[i] = q
             current_inventory = current_inventory + q
             current_cost = current_cost + k + c*q
         current_inventory = current_inventory - lam
@@ -31,12 +31,7 @@ def run_strategy1(data):
         current_cost = current_cost + h*current_inventory
         print(i, current_inventory)
 
-    return(current_cost)
+    return(current_cost, q_list)
 
 
-final_cost = run_strategy1(data)
-
-# preguntas:
-
-# ordenes discretas?
-# puedo tener inventario negativo?
+final_cost, q_list = run_strategy1(data)
